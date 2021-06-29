@@ -159,4 +159,38 @@ We're now ready to extract features from these wav files. Transforming audio int
 
 So we've computed the MFCC's for the first time slice of our audio file, notice that we've flipped the vector around, so that the first element is on the bottom and the highest element is on the top, also after some testing I found that for the model I plan to train having 16 elements seems to work the best. Note that this might not be universally true, you might be able to get good or better accuracy with a different neural network and only 12 elements. The point is to keep trying and experimenting with things to find something that works, we then slide our window over a bit on the waveform and compute the EMFCC's from that time slice, keep going until we've obtained all the EMFCC's for the whole waveform. At this point we have a two-dimentional array of MFcc values, one way to view this matrix is as an image. The X-axis here is the time, each column of pixels correspond to one of the time slices we took, the Y-axis is the MFCC's, so there should be 16 total rows, the colors give us a re;ative representation of the value of each coefficient, the bottom row or 0th coefficient is dark because ther're all large negative values compared to the rest. So we will use a neural network that classifies images
 ![featureExtraction2](https://user-images.githubusercontent.com/50530596/123784479-c3d4bf00-d8d7-11eb-8f00-db935ed84651.png)
+### Function: Create MFCC from given path
+```
+def calc_mfcc(path):
+  #Load wavefile
+  signal, fs=librosa.load(path,sr=sample_rate) #Resamples to 8000 samples per second
 
+  #Create NFCC's from sound clip
+  mfccs=python_speech_features.base.mfcc(signal,samplerate=fs,winlen=0.256,
+                                         winstep=0.050,numcep=num_mfcc,nfilt=26,
+                                         nfft=2048,preemph=0.0,ceplifter=0,
+                                         appendEnergy=False,winfunc=np.hanning)
+  return mfccs.transpose()
+```
+### TEST
+Construct test set by computing MFCC of each wav file we'll take the first 500 samples from the training set and display the shape of their MFCC matrices, each audio file should produce 16 sets of 16 coefficients,as you can see a few of the audio files seem to have been corrupted or not fully one second long, if we count these up and divide by 500 we can conclude that about 10% of all the audio samples have this problem.
+```
+prob_cnt=0
+x_test=[]
+y_test=[]
+for index, filename in enumerate(filenames_train):
+  #stop after 500
+  if index>=500:
+    break
+  #Create path from given filename and target item
+  path=join(dataset_path,target_list[int(y_orig_train[index])],filename)
+
+  #Create MFCCs
+  mfccs=calc_mfcc(path)
+  if mfccs.shape[1]==len_mfcc:
+    x_test.append(mfccs)
+    y_test.append(y_orig_train[index])
+  else:
+    print('Dropped: ',index,mfccs.shape)
+    prob_cnt+=1
+ ```
