@@ -147,3 +147,12 @@ filenames_val=filenames[:val_set_size]
 filenames_test=filenames[val_set_size:(val_set_size+test_set_size)]
 filenames_train=filenames[(val_set_size+test_set_size):]
 ```
+### Break y apart into train, validation, and test sets
+```
+y_orig_val=y[:val_set_size]
+y_orig_test=y[val_set_size:(val_set_size+test_set_size)]
+y_orig_train=y[(val_set_size+test_set_size):]
+```
+### Extract features
+We're now ready to extract features from these wav files. Transforming audio into the mell frequency SEP coefficients seems to be very popular in machine learning for speech recognition. To calculate the MFCC's we take a small time slice of our audio waveform and compute the fast fourier transform, this gives us the amount power at each frequency of that time slice, then we apply a set of filters to that fast fourier transform spectrum, note that these filters are spaced in such a way to represent how humans perceive sound. Generally the filters are linearly spaced below one kilohertz and log rhythmically spaced above one kilohertz. We then sum up the power found in each filter to get a number representing the energy under that filter. Note that most implementations of MFCC used 26 filters for voice from there you'll want to compute the log of each value in the vector, after that we compute the discrete cosine transform of the 26 log filter bank energies. The DCT works much like the fourier transform but operates on real valued signals and does a better job of emphasizing the low frequency components, if you start with 26 elements in the filter bank energies, you should end up with 26 separate coefficients, the lower coefficients contain information about the general shape of the audio spectrum in that time slice as you go up in the coefficients you start to get into the finer details of the audio spectrum. For speech analysis you normally want to throw away the 0th element and anything after element 13, above the 13'th element is usually noise and audio artifacts that don't correlate to speech much.
+
