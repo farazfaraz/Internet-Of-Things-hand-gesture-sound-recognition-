@@ -65,13 +65,13 @@ Finally, unzip your folder by following script:
 !unzip /home/dataSet.zip -d /home/dataSetForVoice
 ```
 ### Import labraries
-* [from os import listdir](#from-os-import-listdir)
-* [from os.path import isdir,join](#from-os.path-import-isdir,join)
-* [import librosa](#import-librosa)
-* [import random](#import-random)
-* [import numpy as np](#import-numpy-as-np)
-* [import matplotlib.pyplot as plt](#import-matplotlib.pyplot-as-plt)
-* [import python_speech_features](#import-python_speech_features)
-* [](#)
-* [](#)                       
+```
+from os import listdir  
+from os.path import isdir,join   
+import librosa        
+import random          
+import numpy as np   
+import matplotlib.pyplot as plt
+import python_speech_features  
+```
    
