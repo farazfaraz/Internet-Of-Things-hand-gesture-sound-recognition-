@@ -45,11 +45,14 @@ You will quickly learn and use Google Colab if you know and have used Jupyter no
 ### How do you use Colab?
 To use Colaboratory, you must have a Google account and then access Colaboratory using your account. Otherwise, most of the Colaboratory features won’t work.
 ### How to Connect Google Colab with Google Drive
-First of all, Upload your Data to your Google Drive then, Run the following script in colab shell.
+Run the following script in colab shell.
 ```
 from google.colab import drive
 drive.mount('/content/drive')
 ```
+If you run, it gives you a link, Go to the mentioned link, Copy the authorization code of your account, finally paste the authorization code into the output shell and press enter
+###How to import and export datasets in google colab?
+
 
 
 
