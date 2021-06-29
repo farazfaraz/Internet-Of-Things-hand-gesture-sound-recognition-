@@ -7,4 +7,4 @@ For example, if you show the number one to the camera with your hand, the light 
 You can also control the light of the lamp by saying light up and light down.
 ### Table of content
 * [Sound recognition part](#Sound recognition part)
-* * [Hand gesture part](#Hand gesture part)
+* [Hand gesture part](#Hand gesture part)
