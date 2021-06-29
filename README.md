@@ -10,5 +10,17 @@ You can also control the light of the lamp by saying light up and light down.
 * [Hand gesture part](#hand-gesture-part)
 ### Libraries needed
 * [cv2](#cv2)
+* [numpy](#numpy)
+* [python_speech_features](#python_speech_features) - For extracting audio features
+* [os](#os)
+* [librosa](#librosa)
+* [random](#random)
+* [matplotlib](#matplotlib)
+* [](#)
+* [](#)
+* [](#)
+* [](#)
+* [](#)
+* [](#)
 * [](#)
 * [](#)
