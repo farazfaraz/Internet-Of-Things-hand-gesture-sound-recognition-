@@ -74,4 +74,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import python_speech_features  
 ```
-   
+If you get this error :  No module named 'python_speech_features', run the following script :
+```
+!pip install python_speech_features
+```
+### Dataset path and view possible targets
+we'll use join to construct the path to our dataset.
+```
+dataset_path='/home/dataSetForVoice/dataSet'
+all_targets=[name for name in listdir(dataset_path) if isdir(join(dataset_path,name))]
+print(all_targets)
+```   
+['zero', 'up', 'wow', 'bed', 'down', 'visual', 'forward', 'happy', 'go', 'one', 'two', 'no', 'sheila', 'bird', 'yes', 'follow', 'five', 'left', 'six', 'house', 'eight', 'on', 'right', 'backward', 'cat', '_background_noise_', 'three', '_', 'seven', 'four', 'nine', 'learn', 'dog', 'stop', 'marvin', 'off', 'tree']
+
+
+
