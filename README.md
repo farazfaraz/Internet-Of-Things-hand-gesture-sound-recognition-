@@ -10,12 +10,12 @@ You can also control the light of the lamp by saying light up and light down.
 * [Hand gesture part](#hand-gesture-part)
 ### Libraries needed
 * [cv2](#cv2)
-* [numpy](#numpy)
-* [python_speech_features](#python_speech_features) - For extracting audio features
-* [os](#os)
-* [librosa](#librosa)
-* [random](#random)
-* [matplotlib](#matplotlib)
+* [numpy](#numpy)                                   , For dealing with matrices
+* [python_speech_features](#python_speech_features) , For extracting audio features
+* [os](#os)                                         , For dealing with files
+* [librosa](#librosa)                               , For loading and resampling wave files
+* [random](#random)                                 , For shuffling data
+* [matplotlib](#matplotlib)                         , For graphing things
 * [](#)
 * [](#)
 * [](#)
