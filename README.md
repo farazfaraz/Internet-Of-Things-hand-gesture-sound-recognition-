@@ -51,8 +51,17 @@ from google.colab import drive
 drive.mount('/content/drive')
 ```
 If you run, it gives you a link, Go to the mentioned link, Copy the authorization code of your account, finally paste the authorization code into the output shell and press enter
-###How to import and export datasets in google colab?
-
-
-
+### How to import and export datasets in google colab?
+First of all, upload your data to your google drive then, by running the following script you transfer your dataset from google drive to google colab :
+```
+!cp /content/drive/dataSet.zip /home/
+```
+After that you can make a directory in google colab by following script :
+```
+!mkdir /home/dataSetForVoice
+```
+Finally unzip your folder by following script:
+```
+!unzip /home/dataSet.zip -d /home/dataSetForVoice
+```
 
