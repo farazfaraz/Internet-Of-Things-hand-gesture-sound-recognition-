@@ -24,3 +24,11 @@ You can also control the light of the lamp by saying light up and light down.
 * [](#)
 * [](#)
 * [](#)
+### Hardware Requirements
+Raspberry pi, camera module, some LEDs, USB microphone
+# Sound Recognition
+### Platform
+* [Python](#Python)
+* [Google Colab](#Google-Colab)
+
+
