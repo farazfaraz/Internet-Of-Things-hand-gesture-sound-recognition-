@@ -87,5 +87,32 @@ print(all_targets)
 ```   
 ['zero', 'up', 'wow', 'bed', 'down', 'visual', 'forward', 'happy', 'go', 'one', 'two', 'no', 'sheila', 'bird', 'yes', 'follow', 'five', 'left', 'six', 'house', 'eight', 'on', 'right', 'backward', 'cat', '_background_noise_', 'three', '_', 'seven', 'four', 'nine', 'learn', 'dog', 'stop', 'marvin', 'off', 'tree']
 
+### Settings
+Let's set a few parameters for the rest of this script, we'll want to create features for all of the target words even if we just pick out one target word later, at the end of this script we'll have a collection of features essentionally matrices that resemble images that store into an NPC file. In practice you'd want to use all the data you have avialable. however it can take hours to extract features and train using 100 thousand samples so I find it much easier to work with a random subset of data, I'll use 80%, this should only be used for initial prototypes. We also want to set aside 10% of our data for cross-validation and 10% for testing. The wav files are recorded with a 16 kilohertz sampling rate we'll be able to get our final model to run faster if we can use a lower sampling rate like 8 kilohertz. We'll set the number of mell frequency septal coefficients(num_mfcc) to 16 and the length of these mfcc's to 16
+```
+target_list=all_targets
+feature_sets_file='all_targets_mfcc_sets.npz'
+perc_keep_samples=0.8  #1.0 is keep all samples
+val_ratio=0.1
+test_ratio=0.1
+sample_rate=8000
+num_mfcc=16
+len_mfcc=16
+```
+### Create list of filenames along with ground truth vector (y)
+next we're going to create a list of all the file names with their full path. This will allow us to load each one and extract the features automatically, in addition we want to create a y array, this array holds the ground truth or actual values. Since this is a supervised learning project where we classify my signals will need the labels for the signals during the training step, we can arbitrarily assign values but they should be consistent. We'll assign number to the words in alphabetical order, zero is zero, up is one, wow is two and so on
+```
+filenames=[]
+y=[]
+for index,target in enumerate(target_list):
+  print(join(dataset_path,target))
+  filenames.append(listdir(join(dataset_path,target)))
+  y.append(np.ones(len(filenames[index]))*index)
+```
+
+
+
+
+
 
 
