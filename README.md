@@ -127,8 +127,23 @@ for item in y:
 2054
 3880
 ...
-
-
-
-
-
+### Flatten filename and y vectors
+We then flatten these arrays, so they're just one long list rather than a collection of arrays
+```
+filenames=[item for sublist in filenames for item in sublist]
+y=[item for sublist in y for item in sublist]
+```
+### Associate filenames with true output and shuffle
+We'll use the python zip command to link each file name with it's associated y value, we then randomly shuffle the filenames and notice that the y values stayed a link to the individual names , we can then unzip the 2 lists to separate filenames and y but there ordering will remain.
+```
+filenames_y=list(zip(filenames,y))
+random.shuffle(filenames_y)
+filenames,y=zip(*filenames_y)
+```
+Finally we will take the first 10% of the data and set it aside to be our cross-validation set. This will be useful in testing the model to see how well it performs during training then we set aside another 10% as test data. We leave the rest of the data alone to be used as training data
+### Break dataset apart into train, validation , and test sets
+```
+filenames_val=filenames[:val_set_size]
+filenames_test=filenames[val_set_size:(val_set_size+test_set_size)]
+filenames_train=filenames[(val_set_size+test_set_size):]
+```
