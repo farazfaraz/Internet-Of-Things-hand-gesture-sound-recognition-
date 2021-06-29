@@ -32,5 +32,16 @@ Raspberry pi, camera module, some LEDs, USB microphone
 ### Platform
 * [Python](#Python)
 * [Google Colab](#Google-Colab)
+### Why colab?
+You will quickly learn and use Google Colab if you know and have used Jupyter notebook before. Colab is basically a free Jupyter notebook environment running wholly in the cloud. Most importantly, Colab does not require a setup, plus the notebooks that you will create can be simultaneously edited by your team members – in a similar manner you edit documents in Google Docs. The greatest advantage is that Colab supports most popular machine learning libraries which can be easily loaded in your notebook.
+### What Colab Offers You?
+* [Write and execute code in Python](#Write and execute code in Python)
+* [Create/Upload/Share notebooks](#Create/Upload/Share notebooks)
+* [Import/Save notebooks from/to Google Drive](#Import/Save-notebooks-from/to-Google-Drive)
+* [Import/Publish notebooks from GitHub](#Import/Publish-notebooks-from-GitHub)
+* [Import external datasets ](#Import-external-datasets )
+* [Integrate PyTorch, TensorFlow, Keras, OpenCV](#Integrate-PyTorch,-TensorFlow,-Keras,-OpenCV)
+* [Free Cloud service with free GPU](#Free-Cloud-service-with-free-GPU)
+
 
 
