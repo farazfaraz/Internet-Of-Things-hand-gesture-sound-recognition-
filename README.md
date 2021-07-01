@@ -194,3 +194,56 @@ for index, filename in enumerate(filenames_train):
     print('Dropped: ',index,mfccs.shape)
     prob_cnt+=1
  ```
+ Dropped:  12 (16, 13)
+Dropped:  17 (16, 7)
+Dropped:  27 (16, 11)
+Dropped:  33 (16, 11)
+Dropped:  38 (16, 14)
+Dropped:  47 (16, 13)
+Dropped:  51 (16, 12)
+Dropped:  55 (16, 14)
+Dropped:  83 (16, 14)
+Dropped:  100 (16, 12)
+Dropped:  108 (16, 12)
+Dropped:  118 (16, 7)
+If the sample isn't quite long enough you can append values that look like data found within the sample , something that approximates silence or white noise. You can also just drop the sample completely which is easiest thing to do, since only about 10% of the samples are problematic for this dataset I'm just going to drop any of them that don't produce exactly 16 sets of coefficients, so we write another function that does exactly that, it makes sure the file ends with .wav, calculates the MFCC's and drops the sample and corresponding label from the Y vectors if it's not long enough, we then run that function on each of our training validation and test sets.
+```
+#Function: Create MFCCs, keeping only ones of desired length
+def extract_features(in_files,in_y):
+  prob_cnt=0
+  out_x=[]
+  out_y=[]
+  for index,filename in enumerate(in_files):
+    #Create path from given filename and target item
+    path=join(dataset_path,target_list[int(in_y[index])],filename)
+    #Check to make sure we're reading a .wav file
+    if  not path.endswith('.wav'):
+      continue
+
+    #Create MFCCs
+    mfccs=calc_mfcc(path)
+    #Only keep MFCCs with given length
+    if mfccs.shape[1]==len_mfcc:
+      out_x.append(mfccs)
+      out_y.append(in_y[index])
+    else:
+      print('Dropped: ',index,mfccs.shape)
+      prob_cnt+=1
+  return out_x,out_y,prob_cnt
+  ```
+### Create train, validation, and test sets
+```
+x_train, y_train, prob=extract_features(filenames_train,y_orig_train)
+print('Removed percentage: ',prob/len(y_orig_train))
+x_val, y_val, prob=extract_features(filenames_val,y_orig_val)
+print('Removed percentage: ',prob/len(y_orig_val))
+x_test, y_test, prob=extract_features(filenames_test,y_orig_test)
+print('Removed percentage: ',prob/len(y_orig_test))
+```
+When it's done you can see that it removed about 10% of samples from the set.
+Finally we use the numpy save Z function to store these massive arrays into an NPZ file, this will allow us to load our saved features and corresponding labels in a next step when we're ready to do the actual machine learning. To load the features we just call numpy dot load and give it the location of the file.
+```
+np.savez(feature_sets_file,x_train=x_train,y_train=y_train,x_val=x_val,y_val=y_val,x_test=x_test,y_test=y_test)
+```
+  
+  
