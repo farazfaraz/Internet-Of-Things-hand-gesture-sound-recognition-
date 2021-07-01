@@ -316,6 +316,41 @@ print(x_train.shape)
 ```
 ##### (77463, 16, 16)
 Tensorflow expects tensors in 4 dimensions as input to conv nets, specifically it wants sample number height, width and channel
+![convolutional2](https://user-images.githubusercontent.com/50530596/124159969-0941e980-da9c-11eb-8535-078a17e0f183.png)
+since conv nets need to be able to handle color images, you'll often see each sample composed of three sets of 2-dimentional arrays, one for each red, green and blue channel, however our MFCCs only have one channel per sample, but we still need to feed the conv net for dimensions, so we use the reshape function to add an extra dimension that doesn't hold any extra information
+```
+#CNN for TF expects (bach, height, width, channels)
+# so we reshape the input tensors with a color channel of 1
+x_train=x_train.reshape(x_train.shape[0],x_train.shape[1],x_train.shape[2],1)
+x_val=x_val.reshape(x_val.shape[0],x_val.shape[1],x_val.shape[2],1)
+x_test=x_test.reshape(x_test.shape[0],x_test.shape[1],x_test.shape[2],1)
+print(x_train.shape)
+```
+##### (77463, 16, 16, 1)
+### Build model
+```
+model=models.Sequential()
+model.add(layers.Conv2D(32,(2,2),activation='relu',input_shape=sample_shape))
+model.add(layers.MaxPooling2D(pool_size=(2,2)))
+model.add(layers.Conv2D(32,(2,2),activation='relu'))
+model.add(layers.MaxPooling2D(pool_size=(2,2)))
+model.add(layers.Conv2D(64,(2,2),activation='relu'))
+#model.add(layers.MaxPooling2D(pool_size=(2,2)))
+
+#Classifier
+model.add(layers.Flatten())
+model.add(layers.Dense(256,activation='relu'))
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(36,activation='softmax'))
+```
+```
+model.compile(loss='categorical_crossentropy',optimizer='rmsprop',metrics=['acc'])
+```
+
+
+
+
+
 
 
 
