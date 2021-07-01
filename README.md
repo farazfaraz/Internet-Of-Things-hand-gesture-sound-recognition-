@@ -277,7 +277,45 @@ print(all_targets)
 ```
 ##### ['forward', 'bed', 'zero', '_', 'house', 'left', 'down', 'yes', 'wow', 'seven', 'follow', 'stop', 'nine', 'happy', 'on', 'learn', 'five', 'dog', 'cat', 'off', 'four', 'one', 'visual', 'two', 'bird', 'tree', 'right', 'eight', 'up', 'no', 'three', 'marvin', 'go', 'six', 'sheila', 'backward']
 
-
+### Settings
+```
+feature_sets_path='/home/features'
+feature_sets_filename='/home/all_targets_mfcc_sets100.npz'
+feature_sets=np.load(join(feature_sets_path,feature_sets_filename))
+print(feature_sets.files)
+```
+##### ['x_train', 'y_train', 'x_val', 'y_val', 'x_test', 'y_test']
+### Assign feature sets
+```
+x_train=feature_sets['x_train']
+y_train=feature_sets['y_train']
+x_val=feature_sets['x_val']
+y_val=feature_sets['y_val']
+x_test=feature_sets['x_test']
+y_test=feature_sets['y_test']
+```
+Look at tensor dimension We can see that the first dimension is the number of samples in that set and the other 2 dimensions are the number of coefficients and the number of sets of coefficients in each sample
+```
+print(x_train.shape)
+print(x_val.shape)
+print(x_test.shape)
+```
+##### (77463, 16, 16)
+##### (9668, 16, 16)
+##### (9725, 16, 16)
+Peek at labels If we look at one of the sets of labels we can see that it's a collection of numbers that correspond to the different words
+```
+print(y_val)
+```
+##### [17. 11.  2. ...  8.  9. 27.]
+### convolutional neural network
+A convolutional neural network usually consists of two different parts, the first is the set of convolutional layers, these layers act to automatically learn and extract features from the image, these features are then passed to a fully connected neural network that attempts to classify the image based on the features provided, the first section of the convolutional set consists of three steps, the first step is the actual convolutional operation, it consists of moving a window across the whole as a sort of filter in order to extract some features such as detecting edges, this sliding window filter is known as a kernel and performs some math operations as it samples a set of pixels from the image, in this example the window is 2 by 2 pixels, the weights used in this kernel are different for every node and are updated automatically dyring training with.
+### View the dimension of our input data
+```
+print(x_train.shape)
+```
+##### (77463, 16, 16)
+Tensorflow expects tensors in 4 dimensions as input to conv nets, specifically it wants sample number height, width and channel
 
 
 
