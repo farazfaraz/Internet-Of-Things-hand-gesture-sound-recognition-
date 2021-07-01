@@ -194,18 +194,29 @@ for index, filename in enumerate(filenames_train):
     print('Dropped: ',index,mfccs.shape)
     prob_cnt+=1
  ```
- Dropped:  12 (16, 13)
-Dropped:  17 (16, 7)
-Dropped:  27 (16, 11)
-Dropped:  33 (16, 11)
-Dropped:  38 (16, 14)
-Dropped:  47 (16, 13)
-Dropped:  51 (16, 12)
-Dropped:  55 (16, 14)
-Dropped:  83 (16, 14)
-Dropped:  100 (16, 12)
-Dropped:  108 (16, 12)
-Dropped:  118 (16, 7)
+##### Dropped:  12 (16, 13)
+
+##### Dropped:  17 (16, 7)
+
+##### Dropped:  27 (16, 11)
+
+##### Dropped:  33 (16, 11)
+
+##### Dropped:  38 (16, 14)
+
+##### Dropped:  47 (16, 13)
+
+##### Dropped:  51 (16, 12)
+
+##### Dropped:  55 (16, 14)
+
+##### Dropped:  83 (16, 14)
+
+##### Dropped:  100 (16, 12)
+
+##### Dropped:  108 (16, 12)
+
+##### Dropped:  118 (16, 7)
 If the sample isn't quite long enough you can append values that look like data found within the sample , something that approximates silence or white noise. You can also just drop the sample completely which is easiest thing to do, since only about 10% of the samples are problematic for this dataset I'm just going to drop any of them that don't produce exactly 16 sets of coefficients, so we write another function that does exactly that, it makes sure the file ends with .wav, calculates the MFCC's and drops the sample and corresponding label from the Y vectors if it's not long enough, we then run that function on each of our training validation and test sets.
 ```
 #Function: Create MFCCs, keeping only ones of desired length
