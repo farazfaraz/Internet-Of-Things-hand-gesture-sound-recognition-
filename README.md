@@ -73,6 +73,7 @@ import random
 import numpy as np   
 import matplotlib.pyplot as plt
 import python_speech_features  
+from tensorflow.keras import layers,models
 ```
 If you get this error :  No module named 'python_speech_features', run the following script :
 ```
@@ -266,5 +267,17 @@ Finally we use the numpy save Z function to store these massive arrays into an N
 ```
 np.savez(feature_sets_file,x_train=x_train,y_train=y_train,x_val=x_val,y_val=y_val,x_test=x_test,y_test=y_test)
 ```
-  
-  
+### load features
+Up to now we downloaded the Google Speech Commands dataset, read the individual files, and converted the raw audio clips into Mel Frequency Cepstral Coefficients (MFCCs). We also split these features into training, cross validation, and test sets. Because we saved these feature sets to a file, we can read that file from disk to begin our model training.
+```
+dataset_path='/home/dataSetForVoice/dataSet'
+all_targets=[name for name in listdir(dataset_path) if isdir(join(dataset_path,name))]
+all_targets.remove('_background_noise_')
+print(all_targets)
+```
+##### ['forward', 'bed', 'zero', '_', 'house', 'left', 'down', 'yes', 'wow', 'seven', 'follow', 'stop', 'nine', 'happy', 'on', 'learn', 'five', 'dog', 'cat', 'off', 'four', 'one', 'visual', 'two', 'bird', 'tree', 'right', 'eight', 'up', 'no', 'three', 'marvin', 'go', 'six', 'sheila', 'backward']
+
+
+
+
+
