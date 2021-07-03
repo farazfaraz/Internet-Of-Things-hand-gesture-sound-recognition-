@@ -17,7 +17,7 @@ You can also control the light of the lamp by saying light up and light down.
 * [random](#random)                                 , For shuffling data
 * [matplotlib](#matplotlib)                         , For graphing things
 * [tensorflow.keras](#tensorflow.keras)             , To build our neural networks and akso for converting our model to TF Lite model
-* [](#)
+* [lite](#lite)                                     , To convert our model to a tensorflow lite model
 * [](#)
 * [](#)
 * [](#)
