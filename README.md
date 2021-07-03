@@ -343,14 +343,45 @@ model.add(layers.Dense(256,activation='relu'))
 model.add(layers.Dropout(0.5))
 model.add(layers.Dense(36,activation='softmax'))
 ```
+### Add training parameters to model
 ```
 model.compile(loss='categorical_crossentropy',optimizer='rmsprop',metrics=['acc'])
 ```
+### Convert array of indices to 1-hot encoded numpy array
+```
+def convertToOneHot(size_all,size_y,y):
+  y_new=np.zeros((size_all,size_y))
+  for i in range(size_y):
+    for j in range(size_all):
+      if y[j]==i:
+        y_new[j,i]=1
+  return y_new
+```
+```
+y_train_new=convertToOneHot(62021,36,y_train)
+y_val_new=convertToOneHot(7757,36,y_val)
+y_test_new=convertToOneHot(7737,36,y_test)
+```
+```
+history=model.fit(x_train,y_train_new,epochs=35,batch_size=100,validation_data=(x_val,y_val_new))
+```
+### Evaluate model with test set
+```
+model.evaluate(x=x_test,y=y_test_new)
+```
+### Last part
+Because machine learning algorithms are normally computationally expensive they're usually run on large computers and servers, however our model is small and simple enough that we can run it on a Raspberry pi but first we need to convert it to a tensorflow lite model, right now our model exists as a group of numbers and commands in a file on our computer, we need to create a quick a python script that converts this model into a tensorflow light model. Tensorflow light model is stored in a special format called a flat buffer which shrinks the size of the model file and allow us to access parts of it serially without first needing to copy the whole thing to memory, we can then copy this tensor flow light model to our Raspberry pi, from there we need to add a microphone to the Raspberry pi in order to capture the audio, it will constantly be listening to everything and converting every second of captured audio to the mel frequency coefficients or MFCCs, those MFCCs will then be fed to our model, we'll use the model to make predictions based on the MFCCs and attempt to classify what was heard, because we're attempting to infer things from unseen data this process is known as inference, our model will then give us the probability it heard our wake word as opposed to anything else, if that probability is over some threshold say 50% we can assume that the wake word was heard
 
-
-
-
-
+```
+#Parameters
+keras_model_filename = '/home/model4.h5'
+tflite_filename = 'wake_word_stop_lite4.tflite'
+# Convert model to TF Lite model
+model = models.load_model(keras_model_filename)
+converter = lite.TFLiteConverter.from_keras_model(model)
+tflite_model = converter.convert()
+open(tflite_filename, 'wb').write(tflite_model)
+```
 
 
 
