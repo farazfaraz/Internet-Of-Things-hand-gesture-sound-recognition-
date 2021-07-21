@@ -24,8 +24,16 @@ You can also control the light of the lamp by saying light up and light down.
 * [](#)
 * [](#)
 * [](#)
+### Libraries needed
+Python
+SD Card Formatter : It is strongly recommended to use the SD Memory Card Formatter to format SD/SDHC/SDXC Cards rather than using formatting tools provided with individual operating systems.
+Win32DiskImager
+wireless network watcher
+Putty
+VNC Viewer
+Fritzing
 ### Hardware Requirements
-Raspberry pi, camera module, some LEDs, USB microphone
+Raspberry pi 3 model B, camera module, some LEDs, USB microphone
 
 
 # Sound Recognition
