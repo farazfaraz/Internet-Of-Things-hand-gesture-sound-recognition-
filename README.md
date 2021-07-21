@@ -27,7 +27,7 @@ You can also control the light of the lamp by saying light up and light down.
 ### Programs needed
 * [Python](#Python)
 * [SD Card Formatter](https://www.sdcard.org/downloads/formatter/)
-**It is strongly recommended to use the SD Memory Card Formatter to format SD/SDHC/SDXC Cards rather than using formatting tools provided with individual operating systems.
+** ** It is strongly recommended to use the SD Memory Card Formatter to format SD/SDHC/SDXC Cards rather than using formatting tools provided with individual operating systems.
 * [Win32DiskImager](https://sourceforge.net/projects/win32diskimager/)
 * [wireless network watcher](#wireless network watcher)
 * [Putty](#Putty)
