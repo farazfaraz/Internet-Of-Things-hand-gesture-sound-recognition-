@@ -384,7 +384,7 @@ history=model.fit(x_train,y_train_new,epochs=35,batch_size=100,validation_data=(
 ```
 model.evaluate(x=x_test,y=y_test_new)
 ```
-### Last part
+### Last part (Running Inference)
 Because machine learning algorithms are normally computationally expensive they're usually run on large computers and servers, however our model is small and simple enough that we can run it on a Raspberry pi but first we need to convert it to a tensorflow lite model, right now our model exists as a group of numbers and commands in a file on our computer, we need to create a quick a python script that converts this model into a tensorflow light model. Tensorflow light model is stored in a special format called a flat buffer which shrinks the size of the model file and allow us to access parts of it serially without first needing to copy the whole thing to memory, we can then copy this tensor flow light model to our Raspberry pi, from there we need to add a microphone to the Raspberry pi in order to capture the audio, it will constantly be listening to everything and converting every second of captured audio to the mel frequency coefficients or MFCCs, those MFCCs will then be fed to our model, we'll use the model to make predictions based on the MFCCs and attempt to classify what was heard, because we're attempting to infer things from unseen data this process is known as inference, our model will then give us the probability it heard our wake word as opposed to anything else, if that probability is over some threshold say 50% we can assume that the wake word was heard
 
 ```
@@ -401,7 +401,16 @@ Here's a flow chart showing how we're going to make this work in real time, we w
 
 ![TFlite2](https://user-images.githubusercontent.com/50530596/127682447-a04eecb3-42ca-4226-ab57-25412b2ea8e9.png)
 ![TFlite3](https://user-images.githubusercontent.com/50530596/127682603-cdf44fee-92cd-4edb-8354-b1a67d662ed5.png)
+![TFlite4](https://user-images.githubusercontent.com/50530596/127682698-28b8f5d8-08be-4302-a8e1-3715b284cb92.png)
 
+### Running Inference
+First, copy the .tflite file over to your Raspberry Pi. You’ll want the file to be in the same directory as your code (or you’ll want to update the path in the code to point to the file).
+
+You will want to plug in a USB microphone into your Raspberry Pi and install any necessary drivers. On the Raspberry Pi, make sure you are running Python 3 and Pip 3.
+Python -m pip install sounddevice numpy scipy timeit python_speech_features
+To install the TensorFlow Lite interpreter, you will need to point pip to the appropriate  wheel file. Go to the  ![TensorFlow Lite quickstart guide](https://www.tensorflow.org/lite/guide/python) and find the table showing the available wheel files. Copy the URL for the TensorFlow Lite package for your processor. For a Raspberry Pi running Raspbian Buster, this will likely be the ARM 32 package for Python 3.7. Install TensorFlow Lite with the following:
+
+Python -m pip install <URL to TensorFlow Lite package>
 
 # Sound Recognition (Online)
 
