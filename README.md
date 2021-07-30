@@ -407,10 +407,12 @@ Here's a flow chart showing how we're going to make this work in real time, we w
 First, copy the .tflite file over to your Raspberry Pi. You’ll want the file to be in the same directory as your code (or you’ll want to update the path in the code to point to the file).
 
 You will want to plug in a USB microphone into your Raspberry Pi and install any necessary drivers. On the Raspberry Pi, make sure you are running Python 3 and Pip 3.
-Python -m pip install sounddevice numpy scipy timeit python_speech_features
+Python -m pip install sounddevice numpy scipy timeit python_speech_features . 
 To install the TensorFlow Lite interpreter, you will need to point pip to the appropriate  wheel file. Go to the  ![TensorFlow Lite quickstart guide](https://www.tensorflow.org/lite/guide/python) and find the table showing the available wheel files. Copy the URL for the TensorFlow Lite package for your processor. For a Raspberry Pi running Raspbian Buster, this will likely be the ARM 32 package for Python 3.7. Install TensorFlow Lite with the following:
 
 Python -m pip install <URL to TensorFlow Lite package>
+You’ll want to connect an LED and limiting resistor (100 - 1k Ω) between board pin 8 (GPIO14) and a Ground pin. See here for the ![Raspberry Pi pinout guide](https://www.raspberrypi.org/documentation/usage/gpio/). 
+Add the following code to a new Python file located in the same directory as your .tflite file:
 
 # Sound Recognition (Online)
 
