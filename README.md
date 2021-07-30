@@ -43,7 +43,7 @@ Raspberry pi 3 model B, camera module, some LEDs, USB microphone
 # Connect your Raspberry Pi
 
 
-# Sound Recognition
+# Sound Recognition (Offline)
 ### Platform
 * [Python](#Python)
 * [Google Colab](#Google-Colab)
@@ -397,6 +397,8 @@ converter = lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
 open(tflite_filename, 'wb').write(tflite_model)
 ```
+Here's a flow chart showing how we're going to make this work in real time, we want to have a buffer that's a second long containing raw audio data from the microphone, we convert that raw audio into its MFCCs which are fed into the inference engine that contains our tensorflow light model, the inference engine spits out a number that essentially gives us the probability, it thinks the section of audio contains the word 'on', this section does not contain stop so we should see some low probability, since it doesn't meet our threshold we simply do nothing, we then slide the window our by half a second and compute the MFCCs again, to do this in real time we simply shift the second half of the buffer to the first half and put the newly captured 0.5 seconds of audio into the second half, since this window still doesn't contain the full target word we won't do anything again, we shift the window one more time and this time the MFCCs should more closely match what the model is expecting, as a result we should ideally see a probability over 0.5, because the inference engine gave us something over threshold we can trigger an action, I'm going to use USB microphone to capture the voice.
 
+# Sound Recognition (Online)
 
 
