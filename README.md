@@ -413,7 +413,259 @@ To install the TensorFlow Lite interpreter, you will need to point pip to the ap
 Python -m pip install <URL to TensorFlow Lite package>
 You’ll want to connect an LED and limiting resistor (100 - 1k Ω) between board pin 8 (GPIO14) and a Ground pin. See here for the ![Raspberry Pi pinout guide](https://www.raspberrypi.org/documentation/usage/gpio/). 
 Add the following code to a new Python file located in the same directory as your .tflite file:
+```
+"""
+Connect a resistor and LED to board pin 8 and run this script.
+Whenever you say "stop", the LED should flash briefly
+"""
 
+import sounddevice as sd
+import numpy as np
+import scipy.signal
+import timeit
+import python_speech_features
+import RPi.GPIO as GPIO
+
+from tflite_runtime.interpreter import Interpreter
+
+# Parameters
+debug_time = 1
+debug_acc = 0
+led_pin = 8
+word_threshold = 0.5
+rec_duration = 0.5
+window_stride = 0.5
+sample_rate = 48000
+resample_rate = 8000
+num_channels = 1
+num_mfcc = 16
+model_path = 'wake_word_stop_lite.tflite'
+
+# Sliding window
+window = np.zeros(int(rec_duration * resample_rate) * 2)
+
+# GPIO 
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(8, GPIO.OUT, initial=GPIO.LOW)
+
+# Load model (interpreter)
+interpreter = Interpreter(model_path)
+interpreter.allocate_tensors()
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+print(input_details)
+
+# Decimate (filter and downsample)
+def decimate(signal, old_fs, new_fs):
+    
+    # Check to make sure we're downsampling
+    if new_fs > old_fs:
+        print("Error: target sample rate higher than original")
+        return signal, old_fs
+    
+    # We can only downsample by an integer factor
+    dec_factor = old_fs / new_fs
+    if not dec_factor.is_integer():
+        print("Error: can only decimate by integer factor")
+        return signal, old_fs
+
+    # Do decimation
+    resampled_signal = scipy.signal.decimate(signal, int(dec_factor))
+
+    return resampled_signal, new_fs
+
+# This gets called every 0.5 seconds
+def sd_callback(rec, frames, time, status):
+
+    GPIO.output(led_pin, GPIO.LOW)
+
+    # Start timing for testing
+    start = timeit.default_timer()
+    
+    # Notify if errors
+    if status:
+        print('Error:', status)
+    
+    # Remove 2nd dimension from recording sample
+    rec = np.squeeze(rec)
+    
+    # Resample
+    rec, new_fs = decimate(rec, sample_rate, resample_rate)
+    
+    # Save recording onto sliding window
+    window[:len(window)//2] = window[len(window)//2:]
+    window[len(window)//2:] = rec
+
+    # Compute features
+    mfccs = python_speech_features.base.mfcc(window, 
+                                        samplerate=new_fs,
+                                        winlen=0.256,
+                                        winstep=0.050,
+                                        numcep=num_mfcc,
+                                        nfilt=26,
+                                        nfft=2048,
+                                        preemph=0.0,
+                                        ceplifter=0,
+                                        appendEnergy=False,
+                                        winfunc=np.hanning)
+    mfccs = mfccs.transpose()
+
+    # Make prediction from model
+    in_tensor = np.float32(mfccs.reshape(1, mfccs.shape[0], mfccs.shape[1], 1))
+    interpreter.set_tensor(input_details[0]['index'], in_tensor)
+    interpreter.invoke()
+    output_data = interpreter.get_tensor(output_details[0]['index'])
+    val1=output_data[0][0]
+    val2=output_data[0][1]
+    val3=output_data[0][2]
+    val4=output_data[0][3]
+    val5=output_data[0][4]
+    val6=output_data[0][5]
+    val7=output_data[0][6]
+    val8=output_data[0][7]
+    val9=output_data[0][8]
+    val10=output_data[0][9]
+    val11=output_data[0][10]
+    val12=output_data[0][11]
+    val13=output_data[0][12]
+    val14=output_data[0][13]
+    val15=output_data[0][14]
+    val16=output_data[0][15]
+    val17=output_data[0][16]
+    val18=output_data[0][17]
+    val19=output_data[0][18]
+    val20=output_data[0][19]
+    val21=output_data[0][20]
+    val22=output_data[0][21]
+    val23=output_data[0][22]
+    val24=output_data[0][23]
+    val25=output_data[0][24]
+    val26=output_data[0][25]
+    val27=output_data[0][26]
+    val28=output_data[0][27]
+    val29=output_data[0][28]
+    val30=output_data[0][29]
+    val31=output_data[0][30]
+    val32=output_data[0][31]
+    val33=output_data[0][32]
+    val34=output_data[0][33]
+    val35=output_data[0][34]
+    val36=output_data[0][35]
+    #print('outputData',output_data)
+    changeDuty=50.0
+    if val1>word_threshold:
+        print('UP')
+        if changeDuty>0.0 and changeDuty<=100.0:
+            changeDuty=changeDuty+50.0
+            p.ChangeDutyCycle(changeDuty)
+            print('changeDuty',changeDuty)
+        else:
+            print('Duty cycle is 100.0')
+        #GPIO.output(led_pin,GPIO.HIGH)
+    if val2>word_threshold:
+        print('unused')
+    if val3>word_threshold:
+        print('unused')
+    if val4>word_threshold:
+        print('unused')
+    if val5>word_threshold:
+        print('unused')
+    if val6>word_threshold:
+        print('unused')
+    if val7>word_threshold:
+        print('unused')
+    if val8>word_threshold:
+        print('unused')
+    if val9>word_threshold:
+        print('unused')
+    if val10>word_threshold:
+        print('unused')
+    if val11>word_threshold:
+        print('unused')
+    if val12>word_threshold:
+        print('unused')
+    if val13>word_threshold:
+        print('unused')
+    if val14>word_threshold:
+        print('unused')
+    if val15>word_threshold:
+        print('off')
+        p.stop()
+        #GPIO.output(led_pin,GPIO.LOW)
+    if val16>word_threshold:
+        print('three')
+    if val17>word_threshold:
+        print('unused')
+    if val18>word_threshold:
+        print('unused')
+    if val19>word_threshold:
+        print('unused')
+    if val20>word_threshold:
+        print('unused')
+    if val21>word_threshold:
+        print('unused')
+    if val22>word_threshold:
+        print('unused')
+    if val23>word_threshold:
+        print('unused')
+    if val24>word_threshold:
+        print('unused')
+    if val25>word_threshold:
+        print('unused')
+    if val26>word_threshold:
+        print('unused')
+    if val27>word_threshold:
+        print('unused')
+    if val28>word_threshold:
+        print('unused')
+    if val29>word_threshold:
+        print('unused')
+    if val30>word_threshold:
+        print('on')
+        p.start(50)
+    if val31>word_threshold:
+        print('unused')
+    if val32>word_threshold:
+        print('unused')
+    if val33>word_threshold:
+        print('unused')
+        print('down')
+        if changeDuty>0.0:
+            changeDuty=changeDuty-40.0
+            p.ChangeDutyCycle(changeDuty)
+            print('changeDuty',changeDuty)
+        else:
+            print('Duty cycle is 0.0')
+    if val34>word_threshold:
+        print('stop')
+        p.stop()
+    if val35>word_threshold:
+        print('down')
+        if changeDuty>0.0:
+            changeDuty=changeDuty-40.0
+            p.ChangeDutyCycle(changeDuty)
+            print('changeDuty',changeDuty)
+        else:
+            print('Duty cycle is 0.0')
+        #GPIO.output(led_pin,GPIO.HIGH)
+    if val36>word_threshold:
+        print('unused')
+  
+    if debug_acc:
+        print(val)
+    
+    if debug_time:
+        print(timeit.default_timer() - start)
+
+# Start streaming from microphone
+with sd.InputStream(channels=num_channels,
+                    samplerate=sample_rate,
+                    blocksize=int(sample_rate * rec_duration),
+                    callback=sd_callback):
+    while True:
+        pass
+```
 # Sound Recognition (Online)
 
 
