@@ -675,10 +675,10 @@ I'm going to explain you how to make your own voice recognition with Raspberry p
 * [sudo apt-get install flac](since we will be using google web speech api, we need a specific flac encoder, because the data is sent to google by this format, most linux have this encoder as default, however it's not the same on Raspberry pi, they don't have this encoder, that's why we need to install it by hand)
 We already have everything we need, let's start programming now, we will be using google web speech api and this is where the fun begins, because the programming with this method is really simple, however it's not the fastest speech recognition method.
 ```
-import speech_recognition as sr
+import speech_recognition as sr #Let's us use commands required for speech recognition
 from datetime import date
 #from gpiozero import LED
-from time import sleep
+from time import sleep #Let's us to use delays in this program
 import RPi.GPIO as GPIO
 
 #GPIO
@@ -741,4 +741,4 @@ while True:
         break
  
 ```
-
+For understanding you Raspberry configuration you have to write this comment in the terminal : pinout
