@@ -690,17 +690,17 @@ p=GPIO.PWM(8,50)
 changeDuty=50.0
 
 r = sr.Recognizer()
-mic = sr.Microphone()
+mic = sr.Microphone() #To read sound from microphone
 
 print("hello")
 
 while True:
     with mic as source:
-        audio = r.listen(source)
+        audio = r.listen(source)    #We send all the audio to method listen where it is recognized by google which returns us only the words that were recognized
     words = r.recognize_google(audio)
     print(words)
 
-    if words == "today":
+    if words == "today": #Prints us today's date
         print(date.today())
 
     if words == "LED on":
@@ -741,6 +741,6 @@ while True:
         break
  
 ```
-For understanding you Raspberry configuration you have to write this comment in the terminal : pinout
+For understanding you Raspberry configuration you have to write this command in the terminal : pinout
 ![pinout](https://user-images.githubusercontent.com/50530596/127731499-71378a4b-9358-4dd6-a91a-71002106c624.png)
 
