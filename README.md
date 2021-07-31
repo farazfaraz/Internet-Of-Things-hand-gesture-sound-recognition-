@@ -670,10 +670,10 @@ with sd.InputStream(channels=num_channels,
 I'm going to explain you how to make your own voice recognition with Raspberry pi.
   First you have to connect to your Raspberri pi and after opening the command line (ALT+CTRL+DEL) we first need to check the python version of this Raspberry pi, on default Raspberry pi works on python 2, so now we want to make that this Raspberry pi would have python 3.7 as default and this is done by this command : sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10, if you're wondering why we want it on 3.7 it's because python 2.7 is pretty old and with python 3 is simpler to install packages. So now let's talk about programming environment, Raspberry pi has Thonny python IDE which is for simple project and it's easy to use, however we recommend using python idle ,which has more capabilities and it's more convenient, so for installing python idle you need to use this command in the terminal : sudo apt install python3 idle3. 
   Now let's install the required pachages for speech recogntion: 
-* [pip install speech recognition](# to use speech recognition to recognize the voice from recordings)
-* [sudo apt-get install python-pyaudio python3-pyaudio](# for using microphone with python we need this pachage)
-* [sudo apt-get install flac](# Since we will be using google web speech api, we need a specific flac encoder, because the data is sent to google by this format, most linux have this encoder as default, however it's not the same on Raspberry pi, they don't have this encoder, that's why we need to install it by hand)
-### We already have everything we need, let's start programming now, we will be using google web speech api and this is where the fun begins, because the programming with this method is really simple, however it's not the fastest speech recognition method.
+* [pip install speech recognition](#to use speech recognition to recognize the voice from recordings)
+* [sudo apt-get install python-pyaudio python3-pyaudio](#for using microphone with python we need this pachage)
+* [sudo apt-get install flac](#Since we will be using google web speech api, we need a specific flac encoder, because the data is sent to google by this format, most linux have this encoder as default, however it's not the same on Raspberry pi, they don't have this encoder, that's why we need to install it by hand)
+We already have everything we need, let's start programming now, we will be using google web speech api and this is where the fun begins, because the programming with this method is really simple, however it's not the fastest speech recognition method.
 ```
 import speech_recognition as sr
 from datetime import date
