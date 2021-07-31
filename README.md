@@ -742,3 +742,5 @@ while True:
  
 ```
 For understanding you Raspberry configuration you have to write this comment in the terminal : pinout
+![pinout](https://user-images.githubusercontent.com/50530596/127731499-71378a4b-9358-4dd6-a91a-71002106c624.png)
+
