@@ -10,6 +10,7 @@ You can also control the light of the lamp by saying light up and light down.
 * [Sound recognition part](#sound-recognition-part)
 * [Hand gesture part](#hand-gesture-part)
 ### Libraries needed
+* [OpenCV](#OpenCV)                                 , is used here for digital image processing
 * [cv2](#cv2)
 * [numpy](#numpy)                                   , For dealing with matrices
 * [python_speech_features](#python_speech_features) , For extracting audio features
