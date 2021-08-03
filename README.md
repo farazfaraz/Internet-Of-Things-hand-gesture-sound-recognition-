@@ -846,12 +846,14 @@ This would be the most time-consuming step. Again make sure you are in the path 
 make –j4
 ```
 In case your code is not compiling at 100% and it gets an error like above, try using "make -j1". Also if it gets stuck at 63% or in the middle somewhere, delete all the files from the build folder and rebuild again with proper steps.
-
+### Step 11: Installing libopencv
+The final step would be to install libopecv using the following command.
 ```
+sudo apt-get install libopencv-devpython-opencv
 ```
-  
+### Step 12: Testing OpenCV
+Finally, you can check if the library was added successfully by running a simple python command.
 ```
-```
-  
-```
+Python
+import cv2
 ```
