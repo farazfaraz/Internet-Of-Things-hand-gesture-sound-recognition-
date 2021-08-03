@@ -750,3 +750,4 @@ This part consists of three phases:
 * Data Gathering
 * Training the model
 * Gesture Detection
+In the first phase, we will collect the images for turn on and off , light up and down the LED, and nothing gesture. Nothing gesture is included so that Raspberry Pi doesn’t make unnecessary moves. This dataset consists of 800 images belonging to four classes. In the second phase, we will train the Recognizer for detecting the gestures made by the user, and in the last phase, we will use the trainer data to recognize the gesture made by the user.
