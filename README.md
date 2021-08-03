@@ -760,3 +760,71 @@ This part consists of three phases:
 We're going to explain you how to install the opencv library onto your raspberry pi using cmake. Basically installing this labrary is alittle comprehensive and a complex process.
 ###### Before starting with the installation, you need to configure few things to ensure proper installation of OpenCV.
 ### Step 1: Expanding File System
+Why we're doing this is that, it expands the file system and there is no shortage of space on the system that we are working.
+###### go to the terminal and type the following command.
+```
+sudo raspi-config
+```
+You will see a menu, select advanced options and you will see another menu, just press enter on Expand Filesystem and it will ask you for confirmation, select Yes. After that, the Pi will confirm for a reboot and then it will resize the partition.
+###### Note: The mouse won't work on this screen, you need to use the keyboard.
+### Step 2: Updating and Upgrading System
+The way you have to do is just write the following codes into your terminal and that is :
+```
+sudo apt-get update && sudo apt-get upgrade
+```
+This should download any latest packages available and install them. This process will take 15-20 minutes.
+Next, we will update the apt-get package.  
+```
+sudo apt-get update
+```
+### Step 3: Installing CMake  
+CMake is necessary to compile the OpenCV Library. First, we will install snapd for installing the CMake package.
+```  
+sudo apt install snapd
+```
+We can now download and install the CMake package using the below command.  
+```
+sudo snap install cmake --classic
+```
+Sometimes after you just type in this code and press enter it might give an error and it might not install cmake, the way you can fix that error is by doing this, you have to go to your rasbperry pi configuration and just change your gpu memory to a certain amount, so go to the preferences and select raspberry pi configuration and then once it opens go to performance and then just make sure that your gpu memory is 256 and nothing less than that, because once it's 256 there will be no errors and cmake will install
+### Step 4: Installing Python
+Now we will install the python 3 development headers using the below command.
+```
+sudo apt-get install python3-dev
+```
+### Step 5:Getting OpenCV packages
+* First, we will download the source code package of OpenCV and compile it on our Raspberry Pi using CMake.
+* The next step would be to download the OpenCV Zip file from GitHub. Use the following command to do the same.
+```
+wget -O opencv.zip https://github.com/opencv/opencv/archive/4.0.0.zip
+```
+  
+```
+```
+  
+```
+```
+  
+```
+```
+  
+```
+```
+  
+```
+```
+  
+```
+```
+  
+```
+```
+  
+```
+```
+  
+```
+```
+  
+```
+```
