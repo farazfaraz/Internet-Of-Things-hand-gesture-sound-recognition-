@@ -798,25 +798,48 @@ sudo apt-get install python3-dev
 ```
 wget -O opencv.zip https://github.com/opencv/opencv/archive/4.0.0.zip
 ```
-  
+###### We're not downloading and using the latest version, opencv 4.0.0 is stable and works perfectly, we have tested it.
+OpenCV has some pre-built packages for python which will help us in developing stuff easier called the OpenCV contrib. So let’s also download that by using a similar command that is shown below.  
 ```
+wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.0.0.zip
 ```
-  
+At this point, you should have downloaded two zip files named “Opencv-4.0.0” and “opencv-contrib-4.0.0” on your home directory. 
+### Step 6: Installing OpenCV Packages
+Let's unzip the opencv-4.0.0 zip file using the following command.
 ```
+unzip opencv.zip
 ```
-  
+Similarly, also extract the opencv_contrib-4.0.0 using the command line
 ```
+unzip opencv_contrib.zip
 ```
-  
+### Step 7: Installing NumPy
+OpenCV requires NumPy as a requirement to work. So let’s install it using the below command.
 ```
+pip install numpy
 ```
-  
+###Step 8: Building Directory
+The next step would be to compile the Open CV library, to do that we need to create a new directory called “build” inside the opencv-4.0.0 directory. Follow the below commands to do the same
 ```
+cd ~/opencv-4.0.0
+mkdir build
+cd build
 ```
-  
+Step 9: Instructions for Compiling
+Now, we have to run CMake for OpenCV. This is the place where we can configure how Open CV has to be compiled.  Make sure you are in the path “~/opencv-4.0.0/build”. Then copy the below lines and paste in the terminal window.
 ```
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib-4.0.0/modules \
+    -D ENABLE_NEON=ON \
+    -D ENABLE_VFPV3=ON \
+    -D BUILD_TESTS=OFF \
+    -D WITH_TBB=OFF \
+    -D INSTALL_PYTHON_EXAMPLES=OFF \
+    -D BUILD_EXAMPLES=OFF ..
 ```
-  
+It should get configured without any errors and you should see the text “Configuring done” and “Generating done” as shown below.
+
 ```
 ```
   
