@@ -8,7 +8,7 @@ You can also control the light of the lamp by saying light up and light down.
 ### Table of content
 * [Connect your Raspberry Pi](https://projects.raspberrypi.org/en/projects/raspberry-pi-getting-started/3)
 * [Sound recognition part](#sound-recognition-part)
-* [Hand gesture part](#hand-gesture-part)
+* [Hand Gesture Recognition using Raspberry Pi and OpenCV](#Hand Gesture Recognition using Raspberry Pi and OpenCV)
 ### Libraries needed
 * [OpenCV](#OpenCV)                                 , is used here for digital image processing. The most common applications of Digital Image Processing are object detection, Face Recognition, and people counter.
 * [cv2](#cv2)
@@ -745,3 +745,8 @@ while True:
 For understanding you Raspberry configuration you have to write this command in the terminal : pinout
 ![pinout](https://user-images.githubusercontent.com/50530596/127731499-71378a4b-9358-4dd6-a91a-71002106c624.png)
 
+# Hand Gesture Recognition using Raspberry Pi and OpenCV
+This part consists of three phases:
+* [Data Gathering]
+* []
+* []
