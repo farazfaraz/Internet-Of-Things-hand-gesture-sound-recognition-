@@ -839,8 +839,12 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D BUILD_EXAMPLES=OFF ..
 ```
 It should get configured without any errors and you should see the text “Configuring done” and “Generating done” as shown below.
-
+![step9InstallOpencv](https://user-images.githubusercontent.com/50530596/128005498-98b01dff-f9a3-4ebb-b4f9-aeaff2f9f289.png)
+### Step 10: Compiling OpenCV
+This would be the most time-consuming step. Again make sure you are in the path “~/opencv-4.0.0/build” and use the following command to compile OpenCV.
 ```
+make –j4
+In case your code is not compiling at 100% and it gets an error like above, try using "make -j1". Also if it gets stuck at 63% or in the middle somewhere, delete all the files from the build folder and rebuild again with proper steps.
 ```
   
 ```
