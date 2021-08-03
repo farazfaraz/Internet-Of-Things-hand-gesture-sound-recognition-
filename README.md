@@ -755,5 +755,5 @@ In the first phase, we will collect the images for turn on and off , light up an
 * Raspberry Pi
 * Pi Camera Module
 * LED
-we  need RPi 3 and Pi camera module with OpenCV and Tensorflow installed on it. OpenCV is used here for digital image processing. The most common applications of Digital Image Processing are object detection, Face Recognition, and people counter.
+###### we need RPi 3 and Pi camera module with OpenCV and Tensorflow installed on it. OpenCV is used here for digital image processing. The most common applications of Digital Image Processing are object detection, Face Recognition, and people counter.
 ### Installing OpenCV
