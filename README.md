@@ -747,6 +747,6 @@ For understanding you Raspberry configuration you have to write this command in 
 
 # Hand Gesture Recognition using Raspberry Pi and OpenCV
 This part consists of three phases:
-* [Data Gathering]
-* []
-* []
+* Data Gathering
+* Training the model
+* Gesture Detection
