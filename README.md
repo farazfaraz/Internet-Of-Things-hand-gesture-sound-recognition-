@@ -755,9 +755,14 @@ This part consists of three phases:
 * Raspberry Pi
 * Pi Camera Module
 * LED
-###### we need RPi 3 and Pi camera module with OpenCV and Tensorflow installed on it. OpenCV is used here for digital image processing. The most common applications of Digital Image Processing are object detection, Face Recognition, and people counter.
-### Installing OpenCV
-We're going to explain you how to install the opencv library onto your raspberry pi using cmake. Basically installing this labrary is alittle comprehensive and a complex process.
+###### we need RPi 4 and Pi camera module with OpenCV and Tensorflow installed on it. OpenCV is used here for digital image processing. The most common applications of Digital Image Processing are object detection, Face Recognition, and people counter.
+### Install OpenCV 4 on Raspberry Pi 4 and Raspbian Buster
+We're going to explain you how to install the opencv library onto your raspberry pi using cmake. Basically installing this labrary is alittle comprehensive and a complex process. 
+##### Let’s review the hardware requirements for this tutorial:
+* Raspberry Pi: This tutorial assumes you are using a Raspberry Pi 4B 1GB, 2GB or 4GB hardware.
+* Operating system: These instructions only apply to Raspbian Buster.
+* 32GB microSD: I recommend the high-quality SanDisk 32GB 98Mb/s cards.
+Before we begin: Grab your Raspberry Pi 4 and flash BusterOS to your microSD.
 ###### Before starting with the installation, you need to configure few things to ensure proper installation of OpenCV.
 ### Step 1: Expanding File System
 Why we're doing this is that, it expands the file system and there is no shortage of space on the system that we are working.
@@ -767,11 +772,110 @@ sudo raspi-config
 ```
 You will see a menu, select advanced options and you will see another menu, just press enter on Expand Filesystem and it will ask you for confirmation, select Yes. After that, the Pi will confirm for a reboot and then it will resize the partition.
 ###### Note: The mouse won't work on this screen, you need to use the keyboard.
-### Step 2: Updating and Upgrading System
+After rebooting, your file system should have been expanded to include all available space on your micro-SD card. You can verify that the disk has been expanded by executing the following command:
+```
+df -h
+```
+I would suggest deleting both Wolfram Engine and LibreOffice to reclaim ~1GB of space on your Raspberry Pi:
+```
+sudo apt-get purge wolfram-engine
+sudo apt-get purge libreoffice*
+sudo apt-get clean
+sudo apt-get autoremove
+```
+### Step 2: Install dependencies
+The first step is to update and upgrade any existing packages. The following commands will update and upgrade any existing packages.
 The way you have to do is just write the following codes into your terminal and that is :
 ```
 sudo apt-get update && sudo apt-get upgrade
 ```
+We then need to install some developer tools, including CMake, which helps us configure the OpenCV build process:
+```
+sudo apt-get install build-essential cmake pkg-config
+```
+Next, we need to install some image I/O packages that allow us to load various image file formats from disk. Examples of such file formats include JPEG, PNG, TIFF, etc.:
+```
+sudo apt-get install libjpeg-dev libtiff5-dev libjasper-dev libpng-dev
+```
+Just as we need image I/O packages, we also need video I/O packages. These libraries allow us to read various video file formats from disk as well as work directly with video streams:
+```
+sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+sudo apt-get install libxvidcore-dev libx264-dev
+```
+The OpenCV library comes with a sub-module named highgui which is used to display images to our screen and build basic GUIs. In order to compile the highgui module, we need to install the GTK development library and prerequisites:
+```
+sudo apt-get install libfontconfig1-dev libcairo2-dev
+sudo apt-get install libgdk-pixbuf2.0-dev libpango1.0-dev
+sudo apt-get install libgtk2.0-dev libgtk-3-dev
+```
+Many operations inside of OpenCV (namely matrix operations) can be optimized further by installing a few extra dependencies:
+```
+sudo apt-get install libatlas-base-dev gfortran
+```
+Lastly, let’s install Python 3 header files so we can compile OpenCV with Python bindings:
+```
+sudo apt-get install python3-dev
+```
+If you’re working with a fresh install of the OS, it is possible that these versions of Python are already at the newest version (you’ll see a terminal message stating this).
+### Step 3: Create your Python virtual environment and install NumPy
+A Python virtual environment is an isolated development/testing/production environment on your system — it is fully sequestered from other environments. Best of all, you can manage the Python packages inside your your virtual environment inside with pip (Python’s package manager).
+You can install pip using the following commands:
+```
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python get-pip.py
+sudo python3 get-pip.py
+sudo rm -rf ~/.cache/pip
+```
+Let’s install virtualenv  and virtualenvwrapper :
+```
+sudo pip install virtualenv virtualenvwrapper
+```
+Once both virtualenv  and virtualenvwrapper  have been installed, open up your ~/.bashrc  file:
+```
+nano ~/.bashrc
+```
+and append the following lines to the bottom of the file(by using arrow keys):
+```
+# virtualenv and virtualenvwrapper
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+source /usr/local/bin/virtualenvwrapper.sh
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+
+  
+  
+  
+  
 This should download any latest packages available and install them. This process will take 15-20 minutes.
 Next, we will update the apt-get package.  
 ```
