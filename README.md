@@ -948,14 +948,28 @@ python
 '4.1.1'
 >>>
 ```
-```
 
+### Install tensorflow
+First we have to activate our virtual environment that we have created for opencv by using following command :
 ```
+workon cv
 ```
-
+Install dependencies :
 ```
+sudo apt-get install -y libhdf5-dev libc-ares-dev libeigen3-dev
+sudo pip3 install pip --upgrade
+sudo pip3 install keras_applications==1.0.8 --no-deps
+sudo pip3 install keras_preprocessing==1.1.0 --no-deps
+sudo pip3 install numpy==1.20.3
+sudo pip3 install h5py==3.1.0
+sudo pip3 install pybind11
+pip3 install -U --user six wheel mock
 ```
-
+###### If you get an error by doing the last command, delete --user.
+Next, you have to get the wheel file
+Depends on the version of your python and the model of your Raspberry pi you have to select the right one, go to this ![link](https://github.com/lhelontra/tensorflow-on-arm/releases) and select: 
+```
+wget https://github.com/lhelontra/tensorflow-on-arm/releases/download/v2.4.0/tensorflow-2.4.0-cp37-none-linux_armv7l.whl
 ```
 ```
 
