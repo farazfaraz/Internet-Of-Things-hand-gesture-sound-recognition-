@@ -841,123 +841,134 @@ export WORKON_HOME=$HOME/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 source /usr/local/bin/virtualenvwrapper.sh
 ```
+![step3InstallOpencv](https://user-images.githubusercontent.com/50530596/128686170-2f60dc9c-1878-4bcb-9841-40bbec086b45.png)
+###### Save and exit via ctrl + x , y , enter .
+From there, reload your ~/.bashrc  file to apply the changes to your current bash session:
 ```
-
+source ~/.bashrc
 ```
+Next, create your Python 3 virtual environment:
 ```
-
+ mkvirtualenv cv -p python3
 ```
+###### Here we are creating a Python virtual environment named cv  using Python 3.
+If you have a Raspberry Pi Camera Module attached to your RPi, you should install the PiCamera API now as well:
 ```
-
+pip install "picamera[array]"
 ```
+Step 4: Compile OpenCV 4 from source
+This method gives you the full install of OpenCV 4, including patented (“Non-free”) algorithms. It will take 1-4 hours depending on the processor in your Raspberry Pi.
+Let’s go ahead and download the OpenCV source code for both the opencv and opencv_contrib repositories, followed by unarchiving them:
 ```
-
-```
-```
-
-```
-```
-
-```
-```
-
-```
-```
-
-```
-```
-
-```
-```
-
-```
-
-  
-  
-  
-  
-This should download any latest packages available and install them. This process will take 15-20 minutes.
-Next, we will update the apt-get package.  
-```
-sudo apt-get update
-```
-### Step 3: Installing CMake  
-CMake is necessary to compile the OpenCV Library. First, we will install snapd for installing the CMake package.
-```  
-sudo apt install snapd
-```
-We can now download and install the CMake package using the below command.  
-```
-sudo snap install cmake --classic
-```
-Sometimes after you just type in this code and press enter it might give an error and it might not install cmake, the way you can fix that error is by doing this, you have to go to your rasbperry pi configuration and just change your gpu memory to a certain amount, so go to the preferences and select raspberry pi configuration and then once it opens go to performance and then just make sure that your gpu memory is 256 and nothing less than that, because once it's 256 there will be no errors and cmake will install
-### Step 4: Installing Python
-Now we will install the python 3 development headers using the below command.
-```
-sudo apt-get install python3-dev
-```
-### Step 5:Getting OpenCV packages
-* First, we will download the source code package of OpenCV and compile it on our Raspberry Pi using CMake.
-* The next step would be to download the OpenCV Zip file from GitHub. Use the following command to do the same.
-```
-wget -O opencv.zip https://github.com/opencv/opencv/archive/4.0.0.zip
-```
-###### We're not downloading and using the latest version, opencv 4.0.0 is stable and works perfectly, we have tested it.
-OpenCV has some pre-built packages for python which will help us in developing stuff easier called the OpenCV contrib. So let’s also download that by using a similar command that is shown below.  
-```
-wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.0.0.zip
-```
-At this point, you should have downloaded two zip files named “Opencv-4.0.0” and “opencv-contrib-4.0.0” on your home directory. 
-### Step 6: Installing OpenCV Packages
-Let's unzip the opencv-4.0.0 zip file using the following command.
-```
+cd ~
+wget -O opencv.zip https://github.com/opencv/opencv/archive/4.1.1.zip
+wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.1.1.zip
 unzip opencv.zip
-```
-Similarly, also extract the opencv_contrib-4.0.0 using the command line
-```
 unzip opencv_contrib.zip
+mv opencv-4.1.1 opencv
+mv opencv_contrib-4.1.1 opencv_contrib
 ```
-### Step 7: Installing NumPy
-OpenCV requires NumPy as a requirement to work. So let’s install it using the below command.
+##### Increasing your SWAP space
+Before you start the compile you must increase your SWAP space. Increasing the SWAP will enable you to compile OpenCV with all four cores of the Raspberry Pi (and without the compile hanging due to memory exhausting). Open up your /etc/dphys-swapfile  file:
+```
+sudo nano /etc/dphys-swapfile
+```
+and then edit the CONF_SWAPSIZE  variable:
+```
+# set size to absolute value, leaving empty (default) then uses computed value
+#   you most likely don't want this, unless you have an special disk situation
+# CONF_SWAPSIZE=100
+CONF_SWAPSIZE=2048
+```
+Notice that we're increasing the swap from 100MB to 2048MB. This is critical to compiling OpenCV with multiple cores on Raspbian Buster.
+Save and exit via ctrl + x , y , enter . If you do not increase SWAP it’s very likely that your Pi will hang during the compile.
+##### From there, restart the swap service:
+```
+sudo /etc/init.d/dphys-swapfile stop
+sudo /etc/init.d/dphys-swapfile start
+```
+#### Compile and install OpenCV 4 on Raspbian Buster
+We’re now ready to compile and install the full, optimized OpenCV library on the Raspberry Pi 4.
+Ensure you are in the cv  virtual environment using the workon  command:
+```
+workon cv
+```
+Then, go ahead and install NumPy (an OpenCV dependency) into the Python virtual environment:
 ```
 pip install numpy
 ```
-###Step 8: Building Directory
-The next step would be to compile the Open CV library, to do that we need to create a new directory called “build” inside the opencv-4.0.0 directory. Follow the below commands to do the same
+And from there configure your build:
 ```
-cd ~/opencv-4.0.0
+cd ~/opencv
 mkdir build
 cd build
-```
-Step 9: Instructions for Compiling
-Now, we have to run CMake for OpenCV. This is the place where we can configure how Open CV has to be compiled.  Make sure you are in the path “~/opencv-4.0.0/build”. Then copy the below lines and paste in the terminal window.
-```
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
-    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib-4.0.0/modules \
+    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
     -D ENABLE_NEON=ON \
     -D ENABLE_VFPV3=ON \
     -D BUILD_TESTS=OFF \
-    -D WITH_TBB=OFF \
     -D INSTALL_PYTHON_EXAMPLES=OFF \
+    -D OPENCV_ENABLE_NONFREE=ON \
+    -D CMAKE_SHARED_LINKER_FLAGS=-latomic \
     -D BUILD_EXAMPLES=OFF ..
 ```
-It should get configured without any errors and you should see the text “Configuring done” and “Generating done” as shown below.
-![step9InstallOpencv](https://user-images.githubusercontent.com/50530596/128005498-98b01dff-f9a3-4ebb-b4f9-aeaff2f9f289.png)
-### Step 10: Compiling OpenCV
-This would be the most time-consuming step. Again make sure you are in the path “~/opencv-4.0.0/build” and use the following command to compile OpenCV.
+Now that we’ve prepared for our OpenCV 4 compilation, it is time to launch the compile process using all four cores:
 ```
-make –j4
+make -j4
 ```
-In case your code is not compiling at 100% and it gets an error like above, try using "make -j1". Also if it gets stuck at 63% or in the middle somewhere, delete all the files from the build folder and rebuild again with proper steps.
-### Step 11: Installing libopencv
-The final step would be to install libopecv using the following command.
+###### In case your code is not compiling at 100% and it gets an error like above, try using "make -j1". Also if it gets stuck at 63% or in the middle somewhere, delete all the files from the build folder and rebuild again with proper steps.
+Assuming OpenCV compiled without error, you can install your optimized version of OpenCV on your Raspberry Pi:
 ```
-sudo apt-get install libopencv-devpython-opencv
+sudo make install
+sudo ldconfig
 ```
-### Step 12: Testing OpenCV
-Finally, you can check if the library was added successfully by running a simple python command.
+#### Reset your SWAP
+Don’t forget to go back to your /etc/dphys-swapfile  file and:
+* Reset CONF_SWAPSIZE  to 100MB.
+* Restart the swap service.
+#### Sym-link your OpenCV 4 on the Raspberry Pi
+Symbolic links are a way of pointing from one directory to a file or folder elsewhere on your system. For this sub-step, we will sym-link the cv2.so  bindings into your cv  virtual environment.
+
+Let’s proceed to create our sym-link. Be sure to use “tab-completion” for all paths below (rather than copying these commands blindly):
 ```
-Python
-import cv2
+cd /usr/local/lib/python3.7/site-packages/cv2/python-3.7
+sudo mv cv2.cpython-37m-arm-linux-gnueabihf.so cv2.so
+cd ~/.virtualenvs/cv/lib/python3.7/site-packages/
+ln -s /usr/local/lib/python3.7/site-packages/cv2/python-3.7/cv2.so cv2.so
+```
+### Step 5: Testing your OpenCV 4 Raspberry Pi BusterOS install
+As a quick sanity check, access the cv  virtual environment, fire up a Python shell, and try to import the OpenCV library:
+```
+cd ~
+workon cv
+python
+>>> import cv2
+>>> cv2.__version__
+'4.1.1'
+>>>
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
+```
+```
+
 ```
