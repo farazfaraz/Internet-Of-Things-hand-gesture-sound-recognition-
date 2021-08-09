@@ -971,18 +971,19 @@ Depends on the version of your python and the model of your Raspberry pi you hav
 ```
 wget https://github.com/lhelontra/tensorflow-on-arm/releases/download/v2.4.0/tensorflow-2.4.0-cp37-none-linux_armv7l.whl
 ```
+Uninstall any version of tensorflow that we already have, if you don't already have tensorflow installed, don't worry about the following command: 
 ```
-
+sudo pip3 uninstall tensorflow
 ```
+Then install tensorflow :
 ```
-
+sudo -H pip3 install tensorflow-2.4.0-cp37-none-linux_armv7l.whl
 ```
+###### Restart the terminal.
+#### Testing your tensorflow Raspberry Pi BusterOS install
 ```
-
-```
-```
-
-```
-```
-
+workon cv
+python
+import tensorflow as tf
+tf.__version__
 ```
