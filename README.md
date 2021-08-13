@@ -1201,7 +1201,8 @@ camera.release()
 cv2.destroyAllWindows() 
 ```
 Random images from validation data
-
+![handGesture1](https://user-images.githubusercontent.com/50530596/129381647-4533f895-1c4e-411a-8402-2541729c8524.png)
+                           
 ```
 
 ```
