@@ -1201,42 +1201,97 @@ camera.release()
 cv2.destroyAllWindows() 
 ```
 ![handGesture1](https://user-images.githubusercontent.com/50530596/129381647-4533f895-1c4e-411a-8402-2541729c8524.png)
-### Classification phase
+### Classification phase (Feature Extraction)
  for classification, there are lots of efficient algorithms that are already used. They are Gradient, PCA (Principal Component Analysis) and SVM (Support Vector Machine).
- I have focuses on SVM, which is a machine learning algorithm, from which I have used CNN.
+ I have focuses on SVM, which is a machine learning algorithm, from which I have used CNN. For this end we have used google colaboratory for training the model. First of all we have to mount our google drive, because we have uploaded our dataset into google drive
 ```
+from google.colab import drive
+drive.mount('/content/drive')
+```
+By the following command we transfer our dataset from google drive to google colaboratory and then we unzip it.                         
+```
+!cp /content/drive/MyDrive/Thesis/HandGesture/dataSet/train.zip /home/
+!mkdir /home/Dataset
+!unzip /home/train.zip -d /home/Dataset   
+                           
+!cp /content/drive/MyDrive/Thesis/HandGesture/dataSet/validData.zip /home/
+!unzip /home/validData.zip -d /home/Dataset                           
+```
+### Import libraries
+                           
+```
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers, datasets, models
+from keras.preprocessing.image import ImageDataGenerator
+import numpy as np
+import os, shutil,glob
+from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
+from ImageDataAugmentor.image_data_augmentor import *
+import albumentations                           
+```
+```
+train_dir='/home/Dataset/train'
+validation_dir='/home/Dataset/validData'
+```
+### For seeing how many classes we have                           
+```
+import torchvision.datasets as datasets
+valid_ds = datasets.ImageFolder(validation_dir)
+valid_ds.classes
+```
+### Make the model                          
+```
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu',padding='same',strides=1, input_shape=(64, 64, 1),name = "Conv1_layer"))
+model.add(layers.MaxPooling2D((2, 2),name = "Max1_layer"))
+model.add(layers.Conv2D(32, (3, 3), activation='relu',padding='same',strides=1,name = "Conv2_layer"))
+model.add(layers.MaxPooling2D((2, 2),name = "Max2_layer"))
+model.add(layers.Conv2D(64, (5, 5), activation='relu',padding='same',strides=1,name = "Conv3_layer"))
+model.add(layers.MaxPooling2D((2, 2),name = "Max3_layer"))
+model.add(layers.Conv2D(128, (5, 5), activation='relu',padding='same',strides=1,name = "Conv4_layer"))
+model.add(layers.MaxPooling2D((2, 2),name = "Max4_layer"))
+model.add(layers.Flatten())
+model.add(layers.Dense(2048, activation='relu',name = "Dense1_layer"))
+model.add(layers.Dense(7, activation='softmax',name = "Dense2_layer_softmax"))
+tf.keras.utils.plot_model(model, to_file="model.png")
+```
+### Compile the model                           
+```
+model.compile(optimizer=tf.keras.optimizers.RMSprop(0.001), loss='categorical_crossentropy', metrics=['acc'])
+```
+```
+train_datagen = ImageDataAugmentor(rescale=1./255,
+        #augment = AUGMENTATIONS, preprocess_input=None)
+        
+validation_datagen = ImageDataAugmentor(rescale=1./255)
 
-```
-```
 
-```
-```
+train_generator = train_datagen.flow_from_directory(
+        # This is the target directory
+        train_dir,
+        # All images will be resized to 64*64
+        target_size=(64, 64), batch_size=10, color_mode='grayscale', class_mode='categorical',shuffle=True)
 
+validation_generator = validation_datagen.flow_from_directory(validation_dir, target_size=(64, 64), batch_size=6, color_mode='grayscale', class_mode='categorical', shuffle=True)
+```
+### Train the model                          
+```
+history = model.fit(train_generator, steps_per_epoch=221, epochs=50, validation_data=validation_generator, validation_steps=85 )
+```
+### Saving the model                          
+```
+model.save('/content/drive/MyDrive/Thesis/Models/handGesture50Epoch.h5')
 ```
 ```
-
+# Saving the model
+model_json = model.to_json()
+with open("/content/drive/MyDrive/Thesis/Models/handGesture50Epoch.json", "w") as json_file:
+    json_file.write(model_json)
+model.save_weights('/content/drive/MyDrive/Thesis/Models/handGesture50Epoch.h5')
 ```
-```
-
-```
-```
-
-```
-```
-
-```
-```
-
-```
-```
-
-```
-```
-
-```
-```
-
-```
+### Recognition(Gesture Detection) phase                            
 ```
 
 ```
