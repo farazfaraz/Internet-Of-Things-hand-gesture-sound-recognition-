@@ -746,11 +746,14 @@ For understanding you Raspberry configuration you have to write this command in 
 ![pinout](https://user-images.githubusercontent.com/50530596/127731499-71378a4b-9358-4dd6-a91a-71002106c624.png)
 
 # Hand Gesture Recognition using Raspberry Pi and OpenCV
-This part consists of three phases:
-* Data Gathering
-* Training the model
-* Gesture Detection
-###### In the first phase, we will collect the images for turn on and off , light up and down the LED, and nothing gesture. Nothing gesture is included so that Raspberry Pi doesn’t make unnecessary moves. This dataset consists of 800 images belonging to four classes. In the second phase, we will train the Recognizer for detecting the gestures made by the user, and in the last phase, we will use the trainer data to recognize the gesture made by the user.
+### Introduction 
+The essential aim of building hand gesture recognition system is to create a natural interaction between human and computer where the recognized gestures can be used for controlling a robot or conveying meaningful information. Gestures can originate from any bodily motion or state but commonly originate from the face or hand. A gesture is a spatiotemporal pattern which may be static , dynamic or both, and is a form of non-verbal communication.Gestures include motion of head, hands, fingers or other body parts Gesture Recognition collectively refers to the whole process of tracking human gestures. Gesture Recognition and more specifically hand gesture recognition can be used to enhance Human Computer Interaction (HCI) and improve the effective utilisation of the available information flow.
+### Purpose
+The aim of the project is to create a software that recognises pre defined hand gestures using various computer vision and machine learning algorithms.we can divide the project into three major steps which represent the major objectives in the project.
+* Hand Detection and Tracking(Data Gathering)
+* Feature Extraction(Training the model)
+* Recognition(Gesture Detection)
+###### In the first phase, we will collect the images for turn on and off , light up and down the LED, and nothing gesture. Nothing gesture is included so that Raspberry Pi doesn’t make unnecessary moves. This dataset consists of 2724 images belonging to seven classes. In the second phase, we will train the Recognizer for detecting the gestures made by the user, and in the last phase, we will use the trainer data to recognize the gesture made by the user.
 ### Components Required
 * Raspberry Pi
 * Pi Camera Module
@@ -987,3 +990,23 @@ python
 import tensorflow as tf
 tf.__version__
 ```
+### Hand Detection and Tracking(Data Gathering)
+This step deals with detection of hand in the frame and tracking it through the video, our objective in this step is to create a robust system that can detect and track hands of different skin colours in varying light conditions with different but simple background. 
+  
+### Feature Extraction(Training the model)
+This step deals with extracting important features that represent important characteristics of the gesture throughout the video and then storing these features. Our objective in this step is to find features that represent shape, motion, size, reflectivity and other important properties.
+### Recognition(Gesture Detection)
+This step deals with recognising and classifying the performed gesture.It has two phases , the training phase which involves training the system on datasets and the classification phase which involves classifying the performed gestures, our objective in this step is to obtain classification with high accuracy within minimum time.
+### Project Scope
+The scope of this project is to build a real time gesture classification system that can automatically detect gestures in natural lighting condition. In order to accomplish this objective, a real time gesture based system is developed to identify gestures. This system will work as one of futuristic of IOT with user interface. Its create method to recognize hand gesture based on different parameters. The main priority of this system is to simple, easy and user friendly without making any special hardware.
+### Method to design
+The design of hand gesture recognition system is broadly divided into two phase.
+* The first phase is the preprocessing phase.
+* The second phase is the classification phase.
+### preprocessing phase
+The efficiency of the Classification phase entirely depends on the preprocessing phase. The main purpose of the pre-processing stage is to:
+● Extract the only hand gesture from an image.
+● Remove the noises (if present) and unwanted region.
+● Process the extracted image to form a binary image and
+● Extract the distinguishable significant features from the processed image,
+to form a feature set for classification. In this step I have used background elimination, average method and thresholding.
