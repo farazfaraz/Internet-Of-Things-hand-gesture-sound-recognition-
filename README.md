@@ -1200,9 +1200,10 @@ while(True):
 camera.release()
 cv2.destroyAllWindows() 
 ```
-Random images from validation data
 ![handGesture1](https://user-images.githubusercontent.com/50530596/129381647-4533f895-1c4e-411a-8402-2541729c8524.png)
-                           
+### Classification phase
+ for classification, there are lots of efficient algorithms that are already used. They are Gradient, PCA (Principal Component Analysis) and SVM (Support Vector Machine).
+ I have focuses on SVM, which is a machine learning algorithm, from which I have used CNN.
 ```
 
 ```
