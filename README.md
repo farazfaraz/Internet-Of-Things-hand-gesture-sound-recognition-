@@ -1200,6 +1200,8 @@ while(True):
 camera.release()
 cv2.destroyAllWindows() 
 ```
+Random images from validation data
+
 ```
 
 ```
