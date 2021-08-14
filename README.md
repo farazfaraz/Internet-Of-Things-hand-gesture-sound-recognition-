@@ -1506,7 +1506,7 @@ In our case , the Raspberry pi 3 that have USB microphone, sends some message to
 * If it detects the word 'off' , sends number 2 to Raspberry pi 4.
 * If it detects the word 'up' , sends number 3 to Raspberry pi 4.
 * If it detects the word 'down' , sends number 4 to Raspberry pi 4.
-Then we add the following codes to our main code related to the voice recognition part.
+###### Then we add the following codes to our main code related to the voice recognition part.
 ```
 import serial
 import time
@@ -1541,22 +1541,47 @@ if val35>word_threshold:
         ser.write(str.encode("%d\n"%s))
         time.sleep(1)
 ```
+##### Programming the Raspberry Pi for Serial Reading
+We connect the LED to Raspberry pi 4 then we add the following codes to our main code related to the hand gesture part.
 ```
+import time
+import serial
 
+ser = serial.Serial(
+        port='/dev/ttyS0',
+        baudrate = 9600,
+        parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE,
+        bytesize=serial.EIGHTBITS,
+        timeout=1)
+while(True):
+        x=ser.readline()
+        if num_frames < 30:
+            run_avg(gray, aWeight)
+        elif x==b'1\n' or x==b'2\n' or x==b'3\n' or x==b'4\n':
+            if x==b'1\n':
+                print('ON')
+                p.start(50)
+            if x==b'2\n':
+                print('OFF')
+                p.stop()            
+            if x==b'3\n':
+                print('UP')
+                if changeDuty>=0.0 and changeDuty<100.0:
+                    changeDuty=changeDuty+10.0
+                    p.ChangeDutyCycle(changeDuty)
+                    print('changeDuty',changeDuty)
+                else:
+                    print('Duty cycle is 100.0')
+            if x==b'4\n':
+                print('DOWN')
+                if changeDuty>10.0:
+                    changeDuty=changeDuty-10.0
+                    p.ChangeDutyCycle(changeDuty)
+                    print('changeDuty',changeDuty)
+                else:
+                    print('Duty cycle is 0.0')
+            
+        else:
+             #Like before
 ```
-```
-
-```
-```
-
-```
-```
-
-```
-```
-
-```
-```
-
-```
- 
