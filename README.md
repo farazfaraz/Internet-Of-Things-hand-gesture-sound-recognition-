@@ -1472,6 +1472,81 @@ if __name__ == "__main__":
 camera.release()
 cv2.destroyAllWindows()
 ```
+### Setting Up UART Serial Communication between 2 Raspberry Pis
+##### Prerequisites
+* Two Raspberry Pi boards
+* 3 jumper wires (female-female) : to connect GPIO pins between Raspberry Pis.
+##### Wiring
+Connect jumper wires between two Raspberry Pi boards. Rx pin on one Raspberry Pi should be connected to Tx pin on the other Raspberry Pi. In our case :
+* connect pin number 6(GND) of Raspberri pi 3 to pin number 6(GND) of Raspberry pi 4
+* connect pin number 8(UART-TX) of Raspberri pi 3 to pin number 10(UART-RX) of Raspberry pi 4
+* connect pin number 10(UART-RX) of Raspberri pi 3 to pin number 8(UART-TX) of Raspberry pi 4
+You have to apply the following steps in both Raspberry pi's.
+##### Enabling UART
+we can make use of the raspi-config tool. This tool will allow us to easily disable the serial input/output interface that is enabled by default
+```
+sudo raspi-config
+```
+This command will load up the Raspberry Pi configuration screen. Use the arrow keys to go down and select “5 Interfacing Options“. Once this option has been selected, you can press Enter. With the next screen you will want to use the arrow keys again to select “P6 Serial“, press Enter once highlighted to select this option. You will now be prompted as to whether you want the login shell to be accessible over serial, select No with your arrow keys and press Enter to proceed. Immediately after you will be asked if you want to make use of the Serial Port Hardware, make sure that you select Yes with your arrow keys and press Enter to proceed. Once the Raspberry Pi has made the changes, you should see the following text appear on your screen.
+###### The serial login shell is disabled , The serial interface is enabled.
+Next, reset your Raspberry pi by following command.
+```
+sudo reboot
+```
+Let’s now check to make sure that everything has been changed correctly by running the following command on your Raspberry Pi.
+```
+dmesg | grep tty
+```
+Here you want to make sure the following message is not displayed in the output, if it is not there then you can skip onto the next section. Otherwise, start over from beginning. These messages indicate that Serial Login is still enabled for that interface.
+* [ttyS0] enabled
+* [ttyAMA0] enabled
+##### Programming the Raspberry Pi for Serial Writing
+In our case , the Raspberry pi 3 that have USB microphone, sends some message to the Raspberry pi 4 that have camera module.
+* If it detects the word 'on' , sends number 1 to Raspberry pi 4.
+* If it detects the word 'off' , sends number 2 to Raspberry pi 4.
+* If it detects the word 'up' , sends number 3 to Raspberry pi 4.
+* If it detects the word 'down' , sends number 4 to Raspberry pi 4.
+Then we add the following codes to our main code related to the voice recognition part.
+```
+import serial
+import time
+
+s=0
+
+ser = serial.Serial(
+        port='/dev/ttyS0', #Replace ttyS0 with ttyAM0 for Pi1,Pi2,Pi0
+        baudrate = 9600,
+        parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE,
+        bytesize=serial.EIGHTBITS,
+        timeout=1)
+if val1>word_threshold:
+        print('UP')
+        s=3
+        ser.write(str.encode("%d\n"%s))
+        time.sleep(1)
+if val15>word_threshold:
+        print('off')
+        s=2
+        ser.write(str.encode("%d\n"%s))
+        time.sleep(1)
+if val30>word_threshold:
+        print('on')
+        s=1
+        ser.write(str.encode("%d\n"%s))
+        time.sleep(1)
+if val35>word_threshold:
+        print('down')
+        s=4
+        ser.write(str.encode("%d\n"%s))
+        time.sleep(1)
+```
+```
+
+```
+```
+
+```
 ```
 
 ```
