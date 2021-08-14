@@ -1307,4 +1307,4 @@ model.save_weights('/content/drive/MyDrive/Thesis/Models/handGesture50Epoch.h5')
 ```
 
 ```
-
+ 
